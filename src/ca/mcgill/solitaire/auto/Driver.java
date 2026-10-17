@@ -30,7 +30,8 @@ public final class Driver {
 	private static final int NUMBER_OF_GAMES = 10000;
 	private static final int TO_PERCENT = 100;
 
-	private Driver() {}
+	private Driver() {
+	}
 
 	/**
 	 * @param pArgs Not used.
@@ -38,7 +39,8 @@ public final class Driver {
 	public static void main(String[] pArgs) {
 		int total = 0;
 		int totalWon = 0;
-		GameModel model = new GameModel(new GreedyPlayingStrategy());
+		GameModel model = GameModel.instance();
+		model.setPlayingStrategy(new GreedyPlayingStrategy());
 		for (int i = 0; i < NUMBER_OF_GAMES; i++) {
 			playGame(model);
 			int score = model.getScore();

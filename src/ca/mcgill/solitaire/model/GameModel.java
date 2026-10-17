@@ -42,7 +42,8 @@ import ca.mcgill.solitaire.cards.Suit;
 public final class GameModel implements GameModelView {
 	private static final Move NULL_MOVE = new Move() {
 		@Override
-		public void perform() {} // Does nothing on purpose
+		public void perform() {
+		} // Does nothing on purpose
 
 		@Override
 		public boolean isNull() {
@@ -50,8 +51,11 @@ public final class GameModel implements GameModelView {
 		}
 
 		@Override
-		public void undo() {} // Does nothing on purpose
+		public void undo() {
+		} // Does nothing on purpose
 	};
+
+	private static final GameModel INSTANCE = new GameModel();
 
 	private final Move aDiscardMove = new Move() {
 		@Override
@@ -76,18 +80,28 @@ public final class GameModel implements GameModelView {
 	private final Foundations aFoundations = new Foundations();
 	private final Tableau aTableau = new Tableau();
 	private final List<GameModelListener> aListeners = new ArrayList<>();
-	private final PlayingStrategy aPlayingStrategy;
+	private PlayingStrategy aPlayingStrategy;
+
+	private GameModel() {
+		reset();
+	}
 
 	/**
-	 * Creates a new game model initialized to a new game.
+	 * @return The single instance of the game model.
+	 */
+	public static GameModel instance() {
+		return INSTANCE;
+	}
+
+	/**
+	 * Sets the strategy to use for auto-play.
 	 * 
-	 * @param pPlayingStrategy The strategy to use for auto-play.
+	 * @param pPlayingStrategy The strategy to use.
 	 * @pre pPlayingStrategy != null
 	 */
-	public GameModel(PlayingStrategy pPlayingStrategy) {
+	public void setPlayingStrategy(PlayingStrategy pPlayingStrategy) {
 		assert pPlayingStrategy != null;
 		aPlayingStrategy = pPlayingStrategy;
-		reset();
 	}
 
 	/**
@@ -272,8 +286,8 @@ public final class GameModel implements GameModelView {
 	}
 
 	/**
-	 * Get the sequence consisting of pCard and all the other cards above it,
-	 * in the tableau.
+	 * Get the sequence consisting of pCard and all the other cards above it, in
+	 * the tableau.
 	 * 
 	 * @param pCard The bottom card of the sequence, inclusive
 	 * @return A non-empty sequence of cards.

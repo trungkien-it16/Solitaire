@@ -34,33 +34,27 @@ import ca.mcgill.solitaire.cards.CardStack;
 import ca.mcgill.solitaire.testutils.StubDeck;
 
 /**
- * Test class for the GameModel. The constructor uses reflection to inject
- * a special deck that is not shuffled into the GameModel, so that the order
- * of cards can be predicted and used as oracle. JUnit5 reinstantiates the 
- * test class before each test, so the order of cards in the deck can always be
- * predicted. The cards are ordered by suit, then rank. See the Suit and 
- * Rank enumerated type for the order.
+ * Test class for the GameModel. The constructor uses reflection to inject a
+ * special deck that is not shuffled into the GameModel, so that the order of
+ * cards can be predicted and used as oracle. JUnit5 reinstantiates the test
+ * class before each test, so the order of cards in the deck can always be
+ * predicted. The cards are ordered by suit, then rank. See the Suit and Rank
+ * enumerated type for the order.
  * 
- * Because 28 cards are used to initialize the tableau from the deck, after
- * the GameModel is initialized, the card at the top of the deck is the 29th
- * card, so the Jack of Diamonds.
+ * Because 28 cards are used to initialize the tableau from the deck, after the
+ * GameModel is initialized, the card at the top of the deck is the 29th card,
+ * so the Jack of Diamonds.
  * 
- * Tableau Piles (bottom -> top):
- * 1: KS
- * 2: QS JS
- * 3: TS 9S 8S
- * 4: 7S 6S 5S 4S
- * 5: 3S 2S AS KH QH
- * 6: JH TH 9H 8H 7H 6H 
- * 7: 5H 4H 3H 2H AH KD QD
+ * Tableau Piles (bottom -> top): 1: KS 2: QS JS 3: TS 9S 8S 4: 7S 6S 5S 4S 5:
+ * 3S 2S AS KH QH 6: JH TH 9H 8H 7H 6H 7: 5H 4H 3H 2H AH KD QD
  */
 public class GameModelTest {
-	
-	private final GameModel aModel = new GameModel(new GreedyPlayingStrategy());
+
+	private final GameModel aModel = GameModel.instance();
 
 	/**
-	 * Initialize the test class so that the instance of GameModel
-	 * stored in aModel is a special subclass TestDeck.
+	 * Initialize the test class so that the instance of GameModel stored in
+	 * aModel is a special subclass TestDeck.
 	 */
 	GameModelTest() throws ReflectiveOperationException {
 		Field deckField = GameModel.class.getDeclaredField("aDeck");
@@ -68,12 +62,12 @@ public class GameModelTest {
 		deckField.set(aModel, new StubDeck());
 		aModel.reset();
 	}
-	
+
 	@Test
 	void testGetScore_Zero() {
 		assertEquals(0, aModel.getScore());
 	}
-	
+
 	@Test
 	void testGetScore_NonZero() {
 		aModel.getCardMove(CQD, TableauPile.FIRST).perform();
@@ -85,12 +79,12 @@ public class GameModelTest {
 		aModel.getCardMove(C2H, FoundationPile.FIRST).perform();
 		assertEquals(2, aModel.getScore());
 	}
-	
+
 	@Test
 	void testListeners_OneListener() {
 		final boolean[] test = { false };
 
-		// The statement below can be replaced with: 
+		// The statement below can be replaced with:
 		// aModel.addListener(() -> test[0] = true);
 		aModel.addListener(new GameModelListener() {
 			@Override
@@ -101,7 +95,7 @@ public class GameModelTest {
 		aModel.getDiscardMove().perform();
 		assertTrue(test[0]);
 	}
-	
+
 	@Test
 	void testListeners_None() {
 		// There is no assert here. The test
@@ -111,8 +105,8 @@ public class GameModelTest {
 	}
 
 	/*
-	 * Verifies that the cards at the top are returned by asserting
-	 * the card at the top of the discard pile.
+	 * Verifies that the cards at the top are returned by asserting the card at
+	 * the top of the discard pile.
 	 */
 	@Test
 	void testDiscard() {
@@ -128,7 +122,7 @@ public class GameModelTest {
 		assertEquals(1, pile.size());
 		assertSame(CKS, pile.peekTop());
 	}
-	
+
 	@Test
 	void testGetTableauPile_Second() {
 		CardStack pile = aModel.getTableauPile(TableauPile.SECOND);
@@ -136,7 +130,7 @@ public class GameModelTest {
 		assertSame(CJS, pile.pop());
 		assertSame(CQS, pile.pop());
 	}
-	
+
 	@Test
 	void testGetTableauPile_Third() {
 		CardStack pile = aModel.getTableauPile(TableauPile.THIRD);
@@ -145,7 +139,7 @@ public class GameModelTest {
 		assertSame(C9S, pile.pop());
 		assertSame(CTS, pile.pop());
 	}
-	
+
 	@Test
 	void testGetTableauPile_Fourth() {
 		CardStack pile = aModel.getTableauPile(TableauPile.FOURTH);
@@ -155,7 +149,7 @@ public class GameModelTest {
 		assertSame(C6S, pile.pop());
 		assertSame(C7S, pile.pop());
 	}
-	
+
 	@Test
 	void testGetTableauPile_Fifth() {
 		CardStack pile = aModel.getTableauPile(TableauPile.FIFTH);
@@ -166,7 +160,7 @@ public class GameModelTest {
 		assertSame(C2S, pile.pop());
 		assertSame(C3S, pile.pop());
 	}
-	
+
 	@Test
 	void testGetTableauPile_Sixth() {
 		CardStack pile = aModel.getTableauPile(TableauPile.SIXTH);
@@ -178,7 +172,7 @@ public class GameModelTest {
 		assertSame(CTH, pile.pop());
 		assertSame(CJH, pile.pop());
 	}
-	
+
 	@Test
 	void testGetTableauPile_Seventh() {
 		CardStack pile = aModel.getTableauPile(TableauPile.SEVENTH);
@@ -191,14 +185,14 @@ public class GameModelTest {
 		assertSame(C4H, pile.pop());
 		assertSame(C5H, pile.pop());
 	}
-	
+
 	@Test
 	void testGetSubStack_SingleCard() {
 		CardStack stack = aModel.getSubpile(CKS);
 		assertEquals(1, stack.size());
 		assertSame(CKS, stack.peekTop());
 	}
-	
+
 	@Test
 	void testGetSubStack_AllCards() {
 		CardStack stack = aModel.getSubpile(CTS);
@@ -207,7 +201,7 @@ public class GameModelTest {
 		assertSame(C9S, stack.pop());
 		assertSame(CTS, stack.pop());
 	}
-	
+
 	@Test
 	void testGetSubStack_TopTwo() {
 		CardStack stack = aModel.getSubpile(C9S);
@@ -215,14 +209,14 @@ public class GameModelTest {
 		assertSame(C8S, stack.pop());
 		assertSame(C9S, stack.pop());
 	}
-	
+
 	@Test
 	void testGetSubStack_TopOnly() {
 		CardStack stack = aModel.getSubpile(C8S);
 		assertEquals(1, stack.size());
 		assertSame(C8S, stack.pop());
 	}
-	
+
 	@Test
 	void testNullMove() {
 		Move nullMove = aModel.getNullMove();

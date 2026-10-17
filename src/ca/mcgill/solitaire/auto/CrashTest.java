@@ -28,13 +28,15 @@ import ca.mcgill.solitaire.model.GameModel;
 public final class CrashTest {
 	private static final int NUMBER_OF_GAMES = 1000;
 
-	private CrashTest() {}
+	private CrashTest() {
+	}
 
 	/**
 	 * @param pArgs Not used.
 	 */
 	public static void main(String[] pArgs) {
-		GameModel model = new GameModel(new GreedyPlayingStrategy());
+		GameModel model = GameModel.instance();
+		model.setPlayingStrategy(new GreedyPlayingStrategy());
 		for (int i = 0; i < NUMBER_OF_GAMES; i++) {
 			playGame(model);
 		}
