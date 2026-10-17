@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "CrashTest",
+            "request": "launch",
+            "mainClass": "solitaire/ca.mcgill.solitaire.auto.CrashTest",
+            "projectName": "Solitaire"
+        },
+        {
+            "type": "java",
+            "name": "Driver",
+            "request": "launch",
+            "mainClass": "solitaire/ca.mcgill.solitaire.auto.Driver",
+            "projectName": "Solitaire"
+        },
+        {
+            "type": "java",
+            "name": "Exercise09",
+            "request": "launch",
+            "mainClass": "solitaire/ca.mcgill.solitaire.exercise.Exercise09",
+            "projectName": "Solitaire"
+        },
+        {
+            "type": "java",
+            "name": "Solitaire",
+            "request": "launch",
+            "mainClass": "solitaire/ca.mcgill.solitaire.gui.Solitaire",
+            "projectName": "Solitaire"
+        }
+    ]
+}
