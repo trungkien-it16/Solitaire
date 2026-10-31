@@ -33,5 +33,5 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="output" path="bin/solitaire"/>
+	<classpathentry kind="output" path="bin/main"/>
 </classpath>

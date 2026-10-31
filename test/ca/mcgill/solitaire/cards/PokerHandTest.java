@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
 
-public class TestPokerHand {
+public class PokerHandTest {
 
 	private static Card card(Rank pRank, Suit pSuit) {
 		return Card.get(pRank, pSuit);
